@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>職員室 注文フォーム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+    }
+    .item-name {
+      flex: 1;
+    }
+    .quantity {
+      width: 60px;
+    }
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #06c755;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>職員室 注文フォーム</h1>
+
+  <!-- 職員室選択 -->
+  <div class="section">
+    <h2>🏫 職員室を選んでください</h2>
+    <select id="roomSelect">
+      <option value="1年職員室">1年職員室</option>
+      <option value="2年職員室">2年職員室</option>
+      <option value="3年職員室">3年職員室</option>
+    </select>
+  </div>
+
+  <!-- 商品選択 -->
+  <div class="section">
+    <h2>🍵 お茶</h2>
+    <div class="item-row">
+      <span class="item-name">緑茶（100円）</span>
+      <input type="number" class="quantity" data-name="緑茶" data-price="100" min="0" value="0">
+    </div>
+    <div class="item-row">
+      <span class="item-name">麦茶（100円）</span>
+      <input type="number" class="quantity" data-name="麦茶" data-price="100" min="0" value="0">
+    </div>
+
+    <h2>☕ コーヒー</h2>
+    <div class="item-row">
+      <span class="item-name">ホットコーヒー（150円）</span>
+      <input type="number" class="quantity" data-name="ホットコーヒー" data-price="150" min="0" value="0">
+    </div>
+    <div class="item-row">
+      <span class="item-name">カフェラテ（180円）</span>
+      <input type="number" class="quantity" data-name="カフェラテ" data-price="180" min="0" value="0">
+    </div>
+
+    <h2>🍪 お菓子</h2>
+    <div class="item-row">
+      <span class="item-name">ビスケット（100円）</span>
+      <input type="number" class="quantity" data-name="ビスケット" data-price="100" min="0" value="0">
+    </div>
+    <div class="item-row">
+      <span class="item-name">チョコレート（120円）</span>
+      <input type="number" class="quantity" data-name="チョコレート" data-price="120" min="0" value="0">
+    </div>
+  </div>
+
+  <!-- 注文ボタン -->
+  <button onclick="submitOrder()">注文する</button>
+
+  <!-- スクリプト -->
+  <script src="script.js"></script>
+
+</body>
+</html>
