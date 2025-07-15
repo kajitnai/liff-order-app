@@ -2,96 +2,241 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>職員室 注文フォーム</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>職員室注文フォーム</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <style>
     body {
       font-family: sans-serif;
+      background: #f9f9f9;
       padding: 20px;
     }
-    h1, h2 {
-      text-align: center;
+
+
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .section {
+
+
+    h1 {
+      font-size: 20px;
+      text-align: center;
       margin-bottom: 20px;
     }
-    .item-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 8px 0;
+
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
     }
-    .item-name {
+
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+
+    .item-entry {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+
+    .item-entry select {
+      flex: 2;
+    }
+
+
+    .item-entry input {
       flex: 1;
     }
-    .quantity {
-      width: 60px;
-    }
-    button {
-      display: block;
-      margin: 30px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #06c755;
+
+
+    .delete-button {
+      flex: 0 0 30px;
+      padding: 4px;
+      font-size: 14px;
+      background: #ff6666;
       color: white;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
+    }
+
+
+    .delete-button:hover {
+      background: #d94a4a;
+    }
+
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #06C755;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+
+    button:hover {
+      background: #05a64f;
+    }
+
+
+    #message {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>🍩 職員室注文フォーム</h1>
 
-  <h1>職員室 注文フォーム</h1>
 
-  <!-- 職員室選択 -->
-  <div class="section">
-    <h2>🏫 職員室を選んでください</h2>
-    <select id="roomSelect">
-      <option value="1年職員室">1年職員室</option>
-      <option value="2年職員室">2年職員室</option>
-      <option value="3年職員室">3年職員室</option>
+    <label>名前</label>
+    <input type="text" id="userName" placeholder="例：山田太郎">
+
+
+    <label>職員室</label>
+    <select id="room">
+      <option value="職員室">職員室</option>
+      <option value="商業センター">商業センター</option>
+      <option value="生徒指導室">生徒指導室</option>
+      <option value="事務室">事務室</option>
+      <option value="進路指導室">進路指導室</option>
     </select>
+
+
+    <label>商品と数量</label>
+    <div id="items"></div>
+    <button type="button" onclick="addItem()">＋ 商品を追加</button>
+
+
+    <button id="orderButton">✅ 注文する</button>
+    <p id="message"></p>
   </div>
 
-  <!-- 商品選択 -->
-  <div class="section">
-    <h2>🍵 お茶</h2>
-    <div class="item-row">
-      <span class="item-name">緑茶（100円）</span>
-      <input type="number" class="quantity" data-name="緑茶" data-price="100" min="0" value="0">
-    </div>
-    <div class="item-row">
-      <span class="item-name">麦茶（100円）</span>
-      <input type="number" class="quantity" data-name="麦茶" data-price="100" min="0" value="0">
-    </div>
 
-    <h2>☕ コーヒー</h2>
-    <div class="item-row">
-      <span class="item-name">ホットコーヒー（150円）</span>
-      <input type="number" class="quantity" data-name="ホットコーヒー" data-price="150" min="0" value="0">
-    </div>
-    <div class="item-row">
-      <span class="item-name">カフェラテ（180円）</span>
-      <input type="number" class="quantity" data-name="カフェラテ" data-price="180" min="0" value="0">
-    </div>
+  <script>
+    const gasUrl = "https://script.google.com/a/macros/ict.shimanet.ed.jp/s/AKfycbxwcUu8BIpuA96BrrLZY5Y4isEw9y3kwPeSqDe4gXe7vsEYy-tlFenIZiYBONGXe0O-/exec";
 
-    <h2>🍪 お菓子</h2>
-    <div class="item-row">
-      <span class="item-name">ビスケット（100円）</span>
-      <input type="number" class="quantity" data-name="ビスケット" data-price="100" min="0" value="0">
-    </div>
-    <div class="item-row">
-      <span class="item-name">チョコレート（120円）</span>
-      <input type="number" class="quantity" data-name="チョコレート" data-price="120" min="0" value="0">
-    </div>
-  </div>
 
-  <!-- 注文ボタン -->
-  <button onclick="submitOrder()">注文する</button>
+    window.onload = () => {
+      addItem();
+      liff.init({ liffId: "2007745236-QYg8PD2w" }).catch(err => console.error("LIFF初期化エラー:", err));
+    };
 
-  <!-- スクリプト -->
-  <script src="script.js"></script>
 
+    function addItem() {
+      const itemsDiv = document.getElementById('items');
+      const wrapper = document.createElement('div');
+      wrapper.className = "item-entry";
+
+
+      const itemSelect = document.createElement('select');
+      itemSelect.className = 'item';
+      itemSelect.innerHTML = `
+        <option value="コーヒー">コーヒー</option>
+        <option value="お茶">お茶</option>
+        <option value="クッキー">クッキー</option>
+        <option value="チョコレート">チョコレート</option>
+      `;
+
+
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.className = 'quantity';
+      qtyInput.value = 1;
+      qtyInput.min = 1;
+
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = "✕";
+      deleteBtn.className = "delete-button";
+      deleteBtn.onclick = () => {
+        if (document.querySelectorAll('.item-entry').length > 1) {
+          wrapper.remove();
+        } else {
+          alert("最低1つの商品は必要です。");
+        }
+      };
+
+
+      wrapper.appendChild(itemSelect);
+      wrapper.appendChild(qtyInput);
+      wrapper.appendChild(deleteBtn);
+
+
+      itemsDiv.appendChild(wrapper);
+    }
+
+
+    document.getElementById('orderButton').addEventListener('click', () => {
+      const userName = document.getElementById('userName').value.trim();
+      const room = document.getElementById('room').value;
+      const itemElements = document.getElementsByClassName('item');
+      const quantityElements = document.getElementsByClassName('quantity');
+
+
+      if (!userName) {
+        document.getElementById('message').innerText = "⚠️ 名前を入力してください。";
+        return;
+      }
+
+
+      const items = [];
+      for (let i = 0; i < itemElements.length; i++) {
+        const item = itemElements[i].value;
+        const quantity = parseInt(quantityElements[i].value);
+        if (!quantity || quantity < 1) {
+          document.getElementById('message').innerText = "⚠️ 数量は1以上を指定してください。";
+          return;
+        }
+        items.push({ item, quantity });
+      }
+
+
+      const orderData = { userName, room, items };
+
+
+      fetch(gasUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      })
+      .then(response => response.text())
+      .then(result => {
+        document.getElementById('message').innerText = "✅ 注文完了！ありがとうございました。";
+        setTimeout(() => liff.closeWindow(), 1500);
+      })
+      .catch(error => {
+        document.getElementById('message').innerText = "⚠️ エラーが発生しました";
+        console.error("送信エラー:", error);
+      });
+    });
+  </script>
 </body>
 </html>
+
+
+
